@@ -3,11 +3,13 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Category;
+use App\Models\User;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Buyer>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
  */
-class BuyerFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +19,8 @@ class BuyerFactory extends Factory
     public function definition(): array
     {
         return [
-            'buyer'=>$this->faker->name(),
-            'email'=>$this->faker->unique()->safeEmail(),
+            'name'=>$this->faker->word(),
+            'slug'=>$this->faker->slug(),
         ];
     }
 }
