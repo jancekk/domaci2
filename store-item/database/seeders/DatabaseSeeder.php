@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         Item::truncate();
         
         $user = User::factory(5)->create();
-        // Buyer::factory(10)->create();
+        Buyer::factory(10)->create();
         Item::factory(5)->create();
 
         $cat1 = Category::create([
