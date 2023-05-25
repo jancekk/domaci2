@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Category;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
@@ -29,7 +33,24 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        return Item::create($request->all());
+        $validator = Validator::make($request->all(),[
+            'name'=>'required|string|max:255',
+            'description'=>'required|string|max:255',
+            'stock'=>'required|string|max:255',
+            // 'category_id'=>'required'
+            
+        ]);
+        if($validator->fails())
+            return response()->json($validator->errors());
+        $item=Item::create([
+            'name'=>$request->name,
+            'description'=>$request->description,
+            'stock'=>$request->stock,
+            // 'category_id'=>$request->category_id,
+            'user_id'=>Auth::user()->id,
+        ]);
+            return response()->json(['Item is created succesfully']);
+
     }
 
     /**
@@ -53,7 +74,21 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'name'=>'required|string|max:255',
+            'description'=>'required|string|max:255',
+            'stock'=>'required|string|max:255',
+            
+        ]);
+        if($validator->fails())
+            return response()->json($validator->errors());
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->stock = $request->stock;
+
+        $item->save();
+
+        return response()->json("Item is updated successfully");
     }
 
     /**
@@ -61,6 +96,8 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        $item->delete();
+
+        return response()->json("Item is deleted successfully");
     }
 }
